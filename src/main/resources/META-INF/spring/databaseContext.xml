@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- enable the configuration of transactional behavior based on annotations -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
+    <context:annotation-config/>
+
+    <!-- a PlatformTransactionManager is still required -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+
+
+    <!-- Wrapping the real datasource into the Spring lazy datasource feature -->
+    <bean id="dataSource" primary="true" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <property name="targetDataSource" ref="dataSourceUCP"/>
+    </bean>
+
+    
+    <bean id="dataSourceUCP" class="oracle.ucp.jdbc.PoolDataSourceFactory" factory-method="getPoolDataSource">
+        <property name="connectionFactoryClassName" value="oracle.jdbc.pool.OracleDataSource"/>
+        <property name="connectionPoolName" value="automatePool" />
+        <property name="URL" value="${dataSource.url}"/>
+        <property name="user" value="${dataSource.username}"/>
+        <property name="password" value="${dataSource.password}"/>
+        <!--  <property name="connectionCachingEnabled" value="true" /> -->
+        <property name="validateConnectionOnBorrow" value="true" />
+        <property name="maxPoolSize" value="${dataSource.maxActive}" />  
+        <!--     <property name="maxPoolSize" value="40" /> -->
+        <property name="inactiveConnectionTimeout" value="${dataSource.idleTimeout}" />
+        <property name="connectionWaitTimeout" value="${dataSource.connectionWaitTimeout}" />
+        <property name="maxStatements" value="20" />
+    </bean>
+    
+</beans>

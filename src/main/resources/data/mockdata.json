@@ -1,0 +1,38 @@
+{
+
+	"Countries": ["IL", "CA"],
+	"Cities": ["Chicago", "SFO"],
+
+	"makes": [{
+		"name": "AUDI"
+	}, {
+		"name": "BMW"
+	}, {
+		"name": "FORD"
+	}, {
+		"name": "CHEVROLET"
+	}, {
+		"name": "HONDA"
+		}, {
+		"name": "TOYOTA"
+	}],
+
+
+	"dealers": [{
+		"name": "Toyota 101",
+		"address": "525 E. Bayshore Road, Redwood City, CA 94063",
+		"zipcode": "94063",
+		"hours": "9AM to 8 PM",
+		"contact": "(650) 343-4444",
+		"website": "http://dealer.com"
+
+	}, {
+		"name": "Boardwalk of Toyota",
+		"address": "600 Bayshore Road, Redwood City, CA 94063",
+		"zipcode": "94045",
+		"hours": "9AM to 8 PM",
+		"contact": "(650) 333-4444",
+		"website": "http://boardwalk.com"
+	}]
+
+}
